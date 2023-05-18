@@ -7,7 +7,9 @@ The project includes a command-line interface (CLI) that allows users to interac
 ### Starting the Command interpreter
 To start the command interpreter, run the console.py file using Python 3
 
-Code:$ python3 console.py
+```
+$ python3 console.py
+```
 
 ### Using the command interpreter
 The command interpreter uses a simple syntax for executing commands:
@@ -20,7 +22,11 @@ where:
 
 ### Examples:
 #### Creating a new user:
- create User name="John" email="john@example.com" password="password"
+```
+ $ create User name="John" email="john@example.com" password="password"
+ ```
 
 #### Show a booking:
- show Booking 456
+```
+ $ show Booking 456
+```
