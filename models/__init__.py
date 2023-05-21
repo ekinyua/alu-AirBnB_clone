@@ -12,6 +12,6 @@ from models.place import Place
 storage = FileStorage()
 storage.reload()
 
-classes = {"BaseModel": BaseModel, "User": User,  "State": State,
+classes = {"BaseModel": BaseModel, "User": User, "State": State,
            "City": City, "Amenity": Amenity, "Place": Place,
            "Review": Review}
