@@ -1,142 +1,123 @@
 #!/usr/bin/python3
-"""model console"""
+""" it's all about console """
+
 import cmd
-import json
-from models.base_model import BaseModel
 import models
-
-base = BaseModel()
-
-
-def errores(x):
-    """returns error messages
-        - x: as argument identifier for error msg
-    """
-    errores = {1: "** class name missing **",
-               2: "** class doesn't exist **",
-               3: "** instance id missing **",
-               4: "** no instance found **",
-               5: "** name missing **",
-               6: "** value missing **",
-               7: "** attribute name missing **"
-               }
-    for key, item in errores.items():
-        if key == x:
-            print(item)
+from models import storage
+from models.base_model import BaseModel
+from models.user import User
+from models.amenity import Amenity
+from models.city import City
+from models.place import Place
+from models.review import Review
+from models.state import State
 
 
 class HBNBCommand(cmd.Cmd):
-    """Command example"""
-
     prompt = '(hbnb) '
+    models.__all__ = {"BaseModel": BaseModel, "User": User, "State": State,
+                      "Place": Place, "City": City, "Amenity": Amenity, "Review": Review}
 
-    Class_dict = {'BaseModel'}
-
-    @staticmethod
-    def do_EOF(self, arg):
-        """EOF signal to interrupt a file"""
-        print()
+    # Quit command
+    def do_quit(self, line):
+        """Quit the program"""
         return True
 
-    def do_quit(self, arg):
-        """Quit command to exit the program"""
+    # End Of File command
+    def do_EOF(self, line):
+        """Exit the program"""
         return True
 
+    # Empty line handling
     def emptyline(self):
+        """Called when an empty line is entered in response to the prompt"""
         pass
 
+    # Create command
     def do_create(self, line):
-        if line == '':
-            errores(1)
-        elif line not in self.Class_dict:
-            errores(2)
-        else:
-            obj = eval(line)()
-            obj.save()
-            print(obj.id)
+        if not line:
+            print("** class name missing **")
+            return
+        words = line.split()
+        if words[0] not in models.__all__:
+            print("** class doesn't exist **")
+            return
+        new_model = eval(words[0] + "()")
+        new_model.save()
+        print(new_model.id)
 
+    # Show command
     def do_show(self, line):
-        new_line = line.split()
+        if not line:
+            print("** class name missing **")
+            return
+        words = line.split()
+        if words[0] not in models.__all__:
+            print("** class doesn't exist **")
+            return
+        if len(words) == 1:
+            print("** instance id missing **")
+            return
+        key = words[0] + "." + words[1]
+        if key not in storage.all().keys():
+            print("** no instance found **")
+            return
+        print(storage.all()[key])
 
-        if new_line == '':
-            errores(1)
-        elif new_line[0] not in self.Class_dict:
-            errores(2)
-        elif len(new_line) < 2:
-            errores(3)
-        else:
-            data = models.storage.all()
-            key = "{}.{}".format(new_line[0], new_line[1])
-            if key in data.keys():
-                obj = data[key]
-                print(obj)
-            else:
-                errores(4)
-
+    # Destroy command
     def do_destroy(self, line):
-        new_line = line.split()
+        if not line:
+            print("** class name missing **")
+            return
+        words = line.split()
+        if words[0] not in models.__all__:
+            print("** class doesn't exist **")
+            return
+        if len(words) == 1:
+            print("** instance id missing **")
+            return
+        key = words[0] + "." + words[1]
+        if key not in storage.all().keys():
+            print("** no instance found **")
+            return
+        del storage.all()[key]
+        storage.save()
 
-        if new_line == '':
-            errores(1)
-        elif new_line[0] not in self.Class_dict:
-            errores(2)
-        elif len(new_line) < 2:
-            errores(3)
-        else:
-            data = models.storage.all()
-            key = "{}.{}".format(new_line[0], new_line[1])
-            if key in data.keys():
-                del data[key]
-                models.storage._FileStorage__objects = data
-                models.storage.save()
-            else:
-                errores(4)
-
+    # All command
     def do_all(self, line):
-        new_line = line.split()
-        data = models.storage.all()
-        new_list = []
-        if line == '':
-            for key_ins, val_obj in data.items():
-                new_list.append(str(val_obj))
-            print(new_list)
-        else:
-            if new_line[0] not in self.Class_dict:
-                errores(2)
-            else:
-                for key_ins, val_obj in data.items():
-                    key_class = val_obj.to_dict()
-                    if key_class['__class__'] == new_line[0]:
-                        new_list.append(str(val_obj))
+        if not line:
+            print([str(v) for v in storage.all().values()])
+            return
+        words = line.split()
+        if words[0] not in models.__all__:
+            print("** class doesn't exist **")
+            return
+        print([str(v) for v in storage.all().values() if type(v).__name__ == words[0]])
 
-                print(new_list)
-
+    # Update command
     def do_update(self, line):
-        new_line = line.split()
-        data = models.storage.all()
+        if not line:
+            print("** class name missing **")
+            return
+        words = line.split()
+        if words[0] not in models.__all__:
+            print("** class doesn't exist **")
+            return
+        if len(words) == 1:
+            print("** instance id missing **")
+            return
+        key = words[0] + "." + words[1]
+        if key not in storage.all().keys():
+            print("** no instance found **")
+            return
+        if len(words) == 2:
+            print("** attribute name missing **")
+            return
+        if len(words) == 3:
+            print("** value missing **")
+            return
+        setattr(storage.all()[key], words[2], words[3].strip('"'))
+        storage.save()
 
-        if line == '':
-            errores(1)
-        elif new_line[0] not in self.Class_dict:
-            errores(2)
-        elif len(new_line) < 2:
-            errores(3)
-        elif len(new_line) < 3:
-            errores(7)
-        elif len(new_line) < 4:
-            errores(6)
-        else:
-            key = "{}.{}".format(new_line[0], new_line[1])
-            if key in data:
-                """data_temp = data[key].to_dict()
-                data_temp.update({new_line[2]: new_line[3]})
-                new_instance = globals()[new_line[0]](**data_temp)
-                new_instance.save()"""
-                new_instance = data[key]
-                setattr(new_instance, new_line[2], new_line[3])
-            else:
-                errores(4)
-
-
-if __name__ == '__main__':
-    HBNBCommand().cmdloop()
+    if __name__ == '__main__':
+        HBNBCommand().cmdloop()
