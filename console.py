@@ -46,7 +46,7 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, line):
-        if line is '':
+        if line == '':
             errores(1)
         elif line not in self.Class_dict:
             errores(2)
@@ -58,7 +58,7 @@ class HBNBCommand(cmd.Cmd):
     def do_show(self, line):
         new_line = line.split()
 
-        if new_line is '':
+        if new_line == '':
             errores(1)
         elif new_line[0] not in self.Class_dict:
             errores(2)
@@ -76,7 +76,7 @@ class HBNBCommand(cmd.Cmd):
     def do_destroy(self, line):
         new_line = line.split()
 
-        if new_line is '':
+        if new_line == '':
             errores(1)
         elif new_line[0] not in self.Class_dict:
             errores(2)
@@ -96,7 +96,7 @@ class HBNBCommand(cmd.Cmd):
         new_line = line.split()
         data = models.storage.all()
         new_list = []
-        if line is '':
+        if line == '':
             for key_ins, val_obj in data.items():
                 new_list.append(str(val_obj))
             print(new_list)
@@ -115,7 +115,7 @@ class HBNBCommand(cmd.Cmd):
         new_line = line.split()
         data = models.storage.all()
 
-        if line is '':
+        if line == '':
             errores(1)
         elif new_line[0] not in self.Class_dict:
             errores(2)
