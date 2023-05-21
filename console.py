@@ -25,11 +25,6 @@ def errores(x):
             print(item)
 
 
-def do_EOF():
-    """EOF signal to interrupt a file"""
-    return True
-
-
 class HBNBCommand(cmd.Cmd):
     """Command example"""
 
@@ -38,7 +33,12 @@ class HBNBCommand(cmd.Cmd):
     Class_dict = {'BaseModel'}
 
     @staticmethod
-    def do_quit():
+    def do_EOF(self, arg):
+        """EOF signal to interrupt a file"""
+        print()
+        return True
+
+    def do_quit(self, arg):
         """Quit command to exit the program"""
         return True
 
