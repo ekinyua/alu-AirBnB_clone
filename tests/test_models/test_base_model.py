@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """Unit test for the Base class"""
-import datetime
+import time
 import pep8
 import unittest
 from models.base_model import BaseModel
@@ -44,8 +44,27 @@ class Test_BaseModel(unittest.TestCase):
         self.assertTrue(isinstance(obj_dict, dict))
 
     def test_save(self):
-        self.test_base.save()
-        self.assertNotEqual(self.test_base.created_at, self.test_base.updated_at)
+        baseModel = BaseModel()
+        updated_at_before_save = baseModel.updated_at
+        time.sleep(0.5)
+        baseModel.save()
+        updated_at_after_save = baseModel.updated_at
+        self.assertNotEqual(baseModel.updated_at, baseModel.created_at)
+        self.assertNotEqual(updated_at_before_save, updated_at_after_save)
+
+    # test BaseModel before and after clling save method
+    def test_save_before_save(self):
+        self.assertEqual(self.testModel.updated_at,
+                         self.testModel.created_at)
+    # test BaseModel before and after clling save method
+
+    def test_save_after_save(self):
+        self.testModel.save()
+        self.assertNotEqual(self.testModel.updated_at,
+                            self.testModel.created_at)
+    # def test_save(self):
+    #     self.test_base.save()
+    #     self.assertNotEqual(self.test_base.created_at, self.test_base.updated_at)
 
     def has_attribute(self):
         self.assertTrue(hasattr(BaseModel, "id"))
