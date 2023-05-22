@@ -1,14 +1,14 @@
 #!/usr/bin/python3
-"""city module for the AirBnB"""
+"""
+Module documentation
+"""
 
-from models import BaseModel
+from models.base_model import BaseModel
 
 
 class City(BaseModel):
-    """City class"""
-
+    """
+    City class
+    """
     state_id = ""
     name = ""
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
