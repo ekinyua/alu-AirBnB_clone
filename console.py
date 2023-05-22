@@ -19,7 +19,7 @@ class HBNBCommand(cmd.Cmd):
     Attributes:
         prompt (str): The command prompt.
     """
-    prompt = '(hbnb)'
+    prompt = '(hbnb) '
     models.__all__ = {"BaseModel": BaseModel, "User": User, "State": State,
                       "Place": Place, "City": City, "Amenity": Amenity, "Review": Review}
 
