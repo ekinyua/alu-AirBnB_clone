@@ -20,7 +20,7 @@ class HBNBCommand(cmd.Cmd):
         prompt (str): The command prompt.
     """
     prompt = '(hbnb) '
-    models.__all__ = {"BaseModel": BaseModel, 
+    models.__all__ = {"BaseModel": BaseModel,
                       "User": User,
                       "State": State,
                       "Place": Place,
@@ -109,7 +109,8 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
         print([
-            str(v) for v in storage.all().values()if type(v).__name__==words[0]
+            str(v) for v in storage.all().values()
+            if type(v).__name__ == words[0]
             ])
 
     # Update command
