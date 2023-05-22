@@ -41,24 +41,14 @@ class FileStorage:
             json.dump(object_dict, file)
 
     def reload(self):
-        """
-        deserializes the JSON file to __objects (only if the JSON file
-        """
-        from models.base_model import BaseModel
-        from models.user import User
-        from models.state import State
-        from models.city import City
-        from models.place import Place
-        from models.amenity import Amenity
-        from models.review import Review
+        """Deserializes the JSON file to __objects (only if the JSON file"""
+        """(path: __file_path) exists ; otherwise, do nothing."""
+        if os.path.exists(self.__file_path):
+            with open(self.__file_path, 'r') as json_file:
+                json_obj = json.load(json_file)
+                for key in json_obj.keys():
 
-        try:
-            with open(self.__file_path, 'r') as file:
-                serialized_content = json.load(file)
-                for item in serialized_content.values():
-                    class_name = item['__class__']
-                    obj = eval(class_name)(**item)
-                    key = '{}.{}'.format(class_name, obj.id)
-                    self.__objects[key] = obj
-        except (FileNotFoundError, json.JSONDecodeError):
-            pass
+                    # By providing the dict value stored in json_obj[key] as
+                    # kwargs, genrate an object with the same attributes
+                    self.__objects[key] = eval(
+                        json_obj[key]['__class__'])(**json_obj[key])
