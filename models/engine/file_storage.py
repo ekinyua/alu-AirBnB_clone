@@ -39,7 +39,7 @@ class FileStorage:
         with open(self.__file_path, 'w') as file:
             json.dump(object_dict, file)
 
-def reload(self):
+    def reload(self):
         """
         deserializes the JSON file to __objects (only if the JSON file
         """
