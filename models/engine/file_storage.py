@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """Defines FileStorage class."""
 import json
-import os
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
@@ -40,15 +39,23 @@ class FileStorage:
         with open(self.__file_path, 'w') as file:
             json.dump(object_dict, file)
 
-    def reload(self):
-        """Deserializes the JSON file to __objects (only if the JSON file"""
-        """(path: __file_path) exists ; otherwise, do nothing."""
-        if os.path.exists(self.__file_path):
-            with open(self.__file_path, 'r') as json_file:
-                json_obj = json.load(json_file)
-                for key in json_obj.keys():
+def reload(self):
+        """
+        deserializes the JSON file to __objects (only if the JSON file
+        """
+        from models.base_model import BaseModel
+        from models.user import User
+        from models.state import State
+        from models.city import City
+        from models.place import Place
+        from models.amenity import Amenity
+        from models.review import Review
 
-                    # By providing the dict value stored in json_obj[key] as
-                    # kwargs, genrate an object with the same attributes
-                    self.__objects[key] = eval(
-                        json_obj[key]['__class__'])(**json_obj[key])
+        try:
+            with open(self.__file_path) as file:
+                serialized_content = json.load(file)
+                for item in serialized_content.values():
+                    class_name = item['__class__']
+                    self.new(eval(class_name + "(**" + str(item) + ")"))
+        except FileNotFoundError:
+            pass
