@@ -14,7 +14,12 @@ from models.state import State
 
 
 class HBNBCommand(cmd.Cmd):
-    prompt = '(hbnb) '
+    """Defines command interpreter.
+
+    Attributes:
+        prompt (str): The command prompt.
+    """
+    prompt = '(hbnb)'
     models.__all__ = {"BaseModel": BaseModel, "User": User, "State": State,
                       "Place": Place, "City": City, "Amenity": Amenity, "Review": Review}
 
@@ -35,6 +40,9 @@ class HBNBCommand(cmd.Cmd):
 
     # Create command
     def do_create(self, line):
+        """Creates a new instance of @cls_name class,
+        and prints the new instance's ID.
+        """
         if not line:
             print("** class name missing **")
             return
@@ -48,6 +56,7 @@ class HBNBCommand(cmd.Cmd):
 
     # Show command
     def do_show(self, line):
+        """Prints a string representation of an instance."""
         if not line:
             print("** class name missing **")
             return
@@ -66,6 +75,7 @@ class HBNBCommand(cmd.Cmd):
 
     # Destroy command
     def do_destroy(self, line):
+        """Deletes an instance of a certain class."""
         if not line:
             print("** class name missing **")
             return
@@ -85,6 +95,7 @@ class HBNBCommand(cmd.Cmd):
 
     # All command
     def do_all(self, line):
+        """Shows all instances, or instances of a certain class"""
         if not line:
             print([str(v) for v in storage.all().values()])
             return
@@ -96,6 +107,8 @@ class HBNBCommand(cmd.Cmd):
 
     # Update command
     def do_update(self, line):
+        """Updates an instance based on the class name
+        and id by adding or updating an attribute"""
         if not line:
             print("** class name missing **")
             return
