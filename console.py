@@ -20,8 +20,13 @@ class HBNBCommand(cmd.Cmd):
         prompt (str): The command prompt.
     """
     prompt = '(hbnb) '
-    models.__all__ = {"BaseModel": BaseModel, "User": User, "State": State,
-                      "Place": Place, "City": City, "Amenity": Amenity, "Review": Review}
+    models.__all__ = {"BaseModel": BaseModel, 
+                      "User": User, 
+                      "State": State,
+                      "Place": Place, 
+                      "City": City, 
+                      "Amenity": Amenity, 
+                      "Review": Review}
 
     # Quit command
     def do_quit(self, line):
@@ -103,7 +108,9 @@ class HBNBCommand(cmd.Cmd):
         if words[0] not in models.__all__:
             print("** class doesn't exist **")
             return
-        print([str(v) for v in storage.all().values() if type(v).__name__ == words[0]])
+        print([
+            str(v) for v in storage.all().values() if type(v).__name__ == words[0]
+            ])
 
     # Update command
     def do_update(self, line):
