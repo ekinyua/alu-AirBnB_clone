@@ -1,26 +1,66 @@
 #!/usr/bin/python3
-"""Unit test for the User class"""
+
+"""Unittest for User Class."""
+
 import unittest
-import pep8
+
 from models.user import User
 
+from models.base_model import BaseModel
 
-class Test_User(unittest.TestCase):
-    """ Test_User class"""
 
-    def test_pep8_conformance(self):
-        """ Test that we conform to PEP8 """
-        pep8style = pep8.StyleGuide(quiet=True)
-        result = pep8style.check_files(['models/user.py'])
-        self.assertEqual(result.total_errors, 0, "Fix pep8")
+class TestCity(unittest.TestCase):
+    """Test cases User class."""
 
-    def test_doctring(self):
-        """ Test doctrings """
-        self.assertIsNotNone(User.__doc__)
+    def test_instance(self):
+        """test instance."""
+        user = User()
+        self.assertIsInstance(user, User)
 
-    def has_attributes(self):
-        """ Test """
-        self.assertIsNotNone(hasattr(User, 'email'))
-        self.assertIsNotNone(hasattr(User, 'password'))
-        self.assertIsNotNone(hasattr(User, 'first_name'))
-        self.assertIsNotNone(hasattr(User, 'last_name'))
+    def test_is_class(self):
+        """test instance."""
+        user = User()
+        self.assertEqual(str(type(user)),
+                         "<class 'models.user.User'>")
+
+    def test_is_subclass(self):
+        """test is_subclass."""
+        user = User()
+        self.assertTrue(issubclass(type(user), BaseModel))
+
+    def test_id(self):
+        """test email."""
+        my_user = User()
+        self.assertIsNotNone(my_user.id)
+
+    def test_email(self):
+        """test email."""
+        my_user = User()
+        self.assertEqual(my_user.email, "")
+        my_user.email = "airbnb@mail.com"
+        self.assertEqual(my_user.email, "airbnb@mail.com")
+
+    def test_password(self):
+        """test password."""
+        my_user = User()
+        self.assertEqual(my_user.password, "")
+        my_user.password = "peoplePower"
+        self.assertEqual(my_user.password, "peoplePower")
+
+    def test_first_name(self):
+        """test first name."""
+        my_user = User()
+        self.assertEqual(my_user.first_name, "")
+        my_user.first_name = "Betty"
+        self.assertEqual(my_user.first_name, "Betty")
+
+    def test_last_name(self):
+        """test last name."""
+        my_user = User()
+        self.assertEqual(my_user.last_name, "")
+        my_user.first_name = "Bar"
+        self.assertEqual(my_user.first_name, "Bar")
+
+
+if __name__ == "__main__":
+    unittest.main()

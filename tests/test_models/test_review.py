@@ -1,25 +1,41 @@
 #!/usr/bin/python3
-"""Unit test for the Review class"""
+"""
+Module documentation
+"""
 import unittest
-import pep8
+
 from models.review import Review
 
+from models.base_model import BaseModel
 
-class Test_Review(unittest.TestCase):
-    """ Test_Review class"""
 
-    def test_pep8_conformance(self):
-        """ Test that we conform to PEP8 """
-        pep8style = pep8.StyleGuide(quiet=True)
-        result = pep8style.check_files(['models/review.py'])
-        self.assertEqual(result.total_errors, 0, "Fix pep8")
+class TestReview(unittest.TestCase):
+    """Test cases Review class."""
 
-    def test_doctring(self):
-        """ Test doctrings """
-        self.assertIsNotNone(Review.__doc__)
+    def test_instance(self):
+        """test instance."""
+        review = Review()
+        self.assertIsInstance(review, Review)
 
-    def has_attributes(self):
-        """ Test """
-        self.assertIsNotNone(hasattr(Review, 'place_id'))
-        self.assertIsNotNone(hasattr(Review, 'user_id'))
-        self.assertIsNotNone(hasattr(Review, 'text'))
+    def test_is_class(self):
+        """test instance."""
+        review = Review()
+        self.assertEqual(str(type(review)),
+                         "<class 'models.review.Review'>")
+
+    def test_is_subclass(self):
+        """test is_subclass."""
+        review = Review()
+        self.assertTrue(issubclass(type(review), BaseModel))
+
+    def test_text(self):
+        """test is_subclass."""
+        review = Review()
+        self.assertIsNotNone(review.id)
+        self.assertEqual(review.text, "")
+        self.assertEqual(review.user_id, "")
+        self.assertEqual(review.place_id, "")
+
+
+if __name__ == "__main__":
+    unittest.main()

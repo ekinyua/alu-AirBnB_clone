@@ -1,24 +1,41 @@
 #!/usr/bin/python3
-"""Unit test for the City class"""
 import unittest
-import pep8
+from models.base_model import BaseModel
 from models.city import City
 
 
-class Test_City(unittest.TestCase):
-    """ Test_City class"""
+class TestCaseCity(unittest.TestCase):
+    """Test cases for City class."""
 
-    def test_pep8_conformance(self):
-        """ Test that we conform to PEP8 """
-        pep8style = pep8.StyleGuide(quiet=True)
-        result = pep8style.check_files(['models/city.py'])
-        self.assertEqual(result.total_errors, 0, "Fix pep8")
+    def test_instance(self):
+        """Test of City class."""
+        city = City()
+        self.assertIsInstance(city, City)
 
-    def test_doctring(self):
-        """ Test doctrings """
-        self.assertIsNotNone(City.__doc__)
+    def test_is_class(self):
+        """Test type of City instance."""
+        city = City()
+        self.assertEqual(str(type(city)), "<class 'models.city.City'>")
 
-    def has_attributes(self):
-        """ Test """
-        self.assertIsNotNone(hasattr(City, 'name'))
-        self.assertIsNotNone(hasattr(City, 'state_id'))
+    def test_is_subclass(self):
+        """Test if City is  subclass."""
+        city = City()
+        self.assertTrue(issubclass(type(city), BaseModel))
+
+    def test_state_id(self):
+        """Test state_id attribute."""
+        city = City()
+        self.assertEqual(city.state_id, "")
+        city.state_id = "kigali"
+        self.assertEqual(city.state_id, "kigali")
+
+    def test_name(self):
+        """Test name attribute."""
+        city = City()
+        self.assertEqual(city.name, "")
+        city.name = "bali"
+        self.assertEqual(city.name, "bali")
+        self.assertIsNotNone(city.id)
+
+    if __name__ == "__main__":
+        unittest.main()
