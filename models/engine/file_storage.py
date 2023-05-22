@@ -52,10 +52,12 @@ class FileStorage:
         from models.review import Review
 
         try:
-            with open(self.__file_path) as file:
+            with open(self.__file_path, 'r') as file:
                 serialized_content = json.load(file)
                 for item in serialized_content.values():
                     class_name = item['__class__']
-                    self.new(eval(class_name + "(**" + str(item) + ")"))
-        except FileNotFoundError:
+                    obj = eval(class_name)(**item)
+                    key = '{}.{}'.format(class_name, obj.id)
+                    self.__objects[key] = obj
+        except (FileNotFoundError, json.JSONDecodeError):
             pass
