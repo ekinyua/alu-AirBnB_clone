@@ -30,7 +30,7 @@ class TestFileStorage_instantiation(unittest.TestCase):
 
     def test_FileStorage_instantiation_with_arg(self):
         with self.assertRaises(TypeError):
-            FileStorage()
+            FileStorage(None)
 
     def test_FileStorage_file_path_is_private_str(self):
         self.assertEqual(str, type(FileStorage._FileStorage__file_path))
