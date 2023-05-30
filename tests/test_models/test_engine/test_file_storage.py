@@ -30,7 +30,7 @@ class TestFileStorage_instantiation(unittest.TestCase):
 
     def test_FileStorage_instantiation_with_arg(self):
         with self.assertRaises(TypeError):
-            FileStorage(None)
+            FileStorage()
 
     def test_FileStorage_file_path_is_private_str(self):
         self.assertEqual(str, type(FileStorage._FileStorage__file_path))
@@ -46,14 +46,14 @@ class TestFileStorage_methods(unittest.TestCase):
     """Unittests for testing methods of the FileStorage class."""
 
     @classmethod
-    def setUp(self):
+    def setUp(cls):
         try:
             os.rename("file.json", "tmp")
         except IOError:
             pass
 
     @classmethod
-    def tearDown(self):
+    def tearDown(cls):
         try:
             os.remove("file.json")
         except IOError:
@@ -125,7 +125,6 @@ class TestFileStorage_methods(unittest.TestCase):
         models.storage.new(am)
         models.storage.new(rv)
         models.storage.save()
-        save_text = ""
         with open("file.json", "r") as f:
             save_text = f.read()
             self.assertIn("BaseModel." + bm.id, save_text)
@@ -167,7 +166,7 @@ class TestFileStorage_methods(unittest.TestCase):
         self.assertIn("Review." + rv.id, objs)
 
     def test_reload_no_file(self):
-        self.assertRaises(FileNotFoundError, models.storage.reload())
+        self.assertRaises(FileNotFoundError, models.storage.reload)
 
     def test_reload_with_arg(self):
         with self.assertRaises(TypeError):
